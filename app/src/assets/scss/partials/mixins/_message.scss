@@ -1,0 +1,151 @@
+:root {
+  --color-text: #2c3e50;
+  --color-link: #3498db;
+  --color-link-bg: #3498db1f;
+  --color-red: #c0392b;
+  --color-grey-light-1: #faf9f9;
+  --color-grey-light-2: #f4f2f2;
+  --color-grey-light-3: #f0eeee;
+  --color-grey-light-4: #ccc;
+  --color-grey-dark-1: #333;
+  --color-grey-dark-2: #777;
+  --color-grey-dark-3: #999;
+
+  --shadow-dark: 0 2rem 6rem rgba(0, 0, 0, 0.3);
+  --shadow-light: 0 2rem 5rem rgba(0, 0, 0, 0.06);
+  --line: 1px solid var(--color-grey-light-2);
+}
+
+.comment_list > li {
+  margin-bottom: 4rem;
+}
+
+.comments_section {
+  margin: 2rem 2rem;
+  background-color: white;
+  box-shadow: var(--shadow-dark);
+  padding: 4rem;
+  transform-origin: top left;
+  transform: scale(0.7);
+}
+
+.no_comment_found {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.comment_card {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: var(--shadow-light);
+  margin-bottom: 2rem;
+}
+
+.figure {
+  display: flex;
+  justify-content: start;
+  padding-bottom: 2rem;
+  border-bottom: var(--line);
+}
+
+.fig_caption {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  padding: 0.5rem 0;
+}
+
+.name {
+  font-size: 2.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.occupation {
+  font-size: 1.8rem;
+  margin-bottom: auto;
+}
+
+.date {
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.comment_text {
+  margin-left: 11rem;
+  padding: 2rem 0;
+  font-size: 2rem;
+  font-weight: 400;
+  border-bottom: var(--line);
+}
+
+.comment_options {
+  margin-left: 11rem;
+  padding: 1rem 0;
+  display: flex;
+}
+
+.comment_options button {
+  display: block;
+  padding: 1rem;
+  font-size: 1.9rem;
+  color: var(--color-link);
+  cursor: pointer;
+}
+
+.comment_options button:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.comment_options button:last-child {
+  margin-left: auto;
+}
+
+.comment_options button:hover {
+  background: var(--color-link-bg);
+}
+
+.comment_edit {
+  margin-left: 11rem;
+}
+
+.comment_edit_message {
+  font-size: 1.3rem;
+  padding: 0.3rem 0;
+}
+
+textarea {
+  font-family: "Lato", sans-serif;
+  border: 1px solid var(--color-text);
+  width: 100%;
+  color: var(--color-text);
+  font-size: 2.5rem;
+  padding: 1.5rem;
+}
+
+.comment_edit_options {
+  display: flex;
+  padding: 1.4rem 0;
+  padding-bottom: 2rem;
+}
+
+.comment_edit_textarea {
+  padding-top: 2rem;
+}
+
+.comment_edit button {
+  display: block;
+  padding: 1rem;
+  font-size: 1.9rem;
+  color: var(--color-link);
+  cursor: pointer;
+}
+
+.comment_edit button:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.comment_edit button:hover {
+  background: var(--color-link-bg);
+}
