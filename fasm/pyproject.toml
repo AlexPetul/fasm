@@ -1,0 +1,30 @@
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = "True"
+force_grid_wrap = 2
+ensure_newline_before_comments = "True"
+line_length = 120
+skip = "migrations"
+atomic = "True"
+skip_glob = ["venv"]
+
+[tool.black]
+line-length = 120
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.direnv
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | \.db_data
+  | venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | migrations
+)/
+'''

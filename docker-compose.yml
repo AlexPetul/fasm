@@ -1,0 +1,78 @@
+version: "3.7"
+
+services:
+  web:
+    build:
+      context: ./fasm
+      dockerfile: ./Dockerfile
+    command: sh -c "uvicorn src.main:app --reload --host 0.0.0.0 --port 8000"
+    volumes:
+      - "./fasm:/app"
+    ports:
+      - "8000:8000"
+    env_file:
+      - "./fasm/.env"
+    restart: always
+    healthcheck:
+      test: "netstat -plutn | grep 0.0.0.0:8000"
+      interval: 3s
+      timeout: 1s  # maximum duration of one check
+      retries: 3  # after how many unsuccessful attempts will the status become unhealthy
+      start_period: 4m30s  # at this time from the start of the container, the retries counter does not go
+    depends_on:
+      postgres:
+        condition: service_healthy
+      preloader:
+        condition: service_completed_successfully
+    networks:
+      - ig_webapp
+
+  node:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    volumes:
+      - "./node:/node"
+    ports:
+      - "3000:3000"
+
+  preloader:
+    build:
+      context: ./fasm
+      dockerfile: ./Dockerfile
+    restart: on-failure
+    healthcheck:
+      test: "netstat -plutn | grep 0.0.0.0:8000"
+      interval: 3s
+      timeout: 1s
+      retries: 3
+      start_period: 4m
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - "./fasm/.env"
+    command: bash -c "alembic upgrade head"
+    networks:
+      - ig_webapp
+
+  postgres:
+    image: postgres:14-alpine
+    volumes:
+      - "./.data/postgres:/var/lib/postgresql/data"
+    user: "postgres"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: [ "CMD", "pg_isready", "--dbname=${DB_NAME}", "--username=${DB_USER}" ]
+      interval: 3s
+      timeout: 1s  # maximum duration of one check
+      retries: 3  # after how many unsuccessful attempts will the status become unhealthy
+      start_period: 4m30s  # at this time from the start of the container, the retries counter does not go
+    networks:
+      - ig_webapp
+
+networks:
+  ig_webapp:

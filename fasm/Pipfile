@@ -1,0 +1,31 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pytest = {version = "==7.1.*", index="pypi"}
+pytest-asyncio = {version = "==0.19.*", index="pypi"}
+pytest-cov = {version = "==4.0.*", index="pypi"}
+httpx = {version = "==0.23.*", index="pypi"}
+factory-boy = {version = "==3.2.*", index = "pypi"}
+
+[packages]
+uvicorn = {version = "*", index="pypi"}
+fastapi = {version = "*", index="pypi"}
+asyncpg = {version = "*", index="pypi"}
+aioboto3 = {version = "*", index="pypi"}
+sqlalchemy = {version = "*", index="pypi"}
+psycopg2-binary = {version = "*", index="pypi"}
+python-dotenv = {version = "*", index="pypi"}
+alembic = {version = "*", index="pypi"}
+PyJWT = {version = "*", index="pypi"}
+pydantic = {version = "*", index="pypi", extras=["email"]}
+pydantic-settings = {version = "*", index="pypi"}
+requests = {version = "*", index="pypi"}
+python-jose = {version = "*", index="pypi"}
+python-slugify = {version = "*", index="pypi"}
+openai = {version = "*", index="pypi"}
+
+[requires]
+python_version = "3.11"
