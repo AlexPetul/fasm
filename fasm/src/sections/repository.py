@@ -1,5 +1,4 @@
 from sqlalchemy import (
-    delete,
     desc,
     select,
 )

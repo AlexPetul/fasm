@@ -1,4 +1,7 @@
-from typing import List
+from typing import (
+    Annotated,
+    List,
+)
 
 from fastapi import (
     APIRouter,
@@ -33,7 +36,7 @@ router = APIRouter(prefix="/sections")
     response_model=List[SectionSchema],
     dependencies=[Security(get_current_user)],
 )
-async def sections(repository: SectionsRepository = Depends(get_repository(SectionsRepository))):
+async def sections(repository: Annotated[SectionsRepository, Depends(get_repository(SectionsRepository))]):
     return await repository.list()
 
 
@@ -45,8 +48,8 @@ async def sections(repository: SectionsRepository = Depends(get_repository(Secti
     dependencies=[Security(get_current_user)],
 )
 async def create_section(
-    data: SectionSchemaCreate = Body(),
-    repository: SectionsRepository = Depends(get_repository(SectionsRepository)),
+    data: Annotated[SectionSchemaCreate, Body()],
+    repository: Annotated[SectionsRepository, Depends(get_repository(SectionsRepository))],
 ):
     return await repository.create(name=data.name)
 
@@ -58,11 +61,11 @@ async def create_section(
     response_model=QuestionSchema,
 )
 async def create_question(
-    pk: int,
-    data: QuestionSchemaCreate = Body(),
-    current_user: User = Depends(get_current_user),
-    questions_repository: QuestionsRepository = Depends(get_repository(QuestionsRepository)),
-    sections_repository: SectionsRepository = Depends(get_repository(SectionsRepository)),
+    pk: Annotated[int, "Section's primary key"],
+    data: Annotated[QuestionSchemaCreate, Body()],
+    current_user: Annotated[User, Depends(get_current_user)],
+    questions_repository: Annotated[QuestionsRepository, Depends(get_repository(QuestionsRepository))],
+    sections_repository: Annotated[SectionsRepository, Depends(get_repository(SectionsRepository))],
 ):
     section = await sections_repository.get_by_id(pk)
 
@@ -82,9 +85,9 @@ async def create_question(
     response_model=List[QuestionSchema],
 )
 async def list_questions(
-    pk: int,
-    current_user: User = Depends(get_current_user),
-    repository: QuestionsRepository = Depends(get_repository(QuestionsRepository)),
+    pk: Annotated[int, "Section's primary key'"],
+    current_user: Annotated[User, Depends(get_current_user)],
+    repository: Annotated[QuestionsRepository, Depends(get_repository(QuestionsRepository))],
 ):
     return await repository.list(
         section_id=pk,
@@ -99,7 +102,7 @@ async def list_questions(
     dependencies=[Security(get_current_user)],
 )
 async def list_questions(
-    pk: int,
-    repository: QuestionsRepository = Depends(get_repository(QuestionsRepository)),
+    pk: Annotated[int, "Question's primary key"],
+    repository: Annotated[QuestionsRepository, Depends(get_repository(QuestionsRepository))],
 ):
     await repository.delete(pk)

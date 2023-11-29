@@ -1,6 +1,8 @@
-import os
 from functools import cache
-from typing import List, Dict
+from typing import (
+    Dict,
+    List,
+)
 
 import jwt.exceptions
 import requests

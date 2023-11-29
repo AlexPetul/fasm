@@ -1,11 +1,10 @@
+from typing import Annotated
+
 from fastapi import (
     APIRouter,
     Body,
     Depends,
-    HTTPException,
     Request,
-    Response,
-    Security,
     status,
 )
 
@@ -21,7 +20,10 @@ router = APIRouter(prefix="/auth")
 
 
 @router.post(path="/login", response_model=JWTPairSchema, status_code=status.HTTP_200_OK, name="auth:login")
-async def login(data: LoginSchema = Body(), user_repository=Depends(get_repository(UsersRepository))):
+async def login(
+    data: Annotated[LoginSchema, Body()],
+    user_repository: Annotated[UsersRepository, Depends(get_repository(UsersRepository))],
+):
     access, refresh = await cognito.login(data.username, data.password, user_repository=user_repository)
     return JWTPairSchema(access=access, refresh=refresh)
 
