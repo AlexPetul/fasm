@@ -1,6 +1,7 @@
 from sqlalchemy import (
     desc,
     select,
+    update,
 )
 
 from src.db.repository import BaseRepository
@@ -58,3 +59,10 @@ class QuestionsRepository(BaseRepository):
         await self.session.commit()
 
         return instance
+
+    async def update(self, pk: int, **kwargs):
+        await self.session.execute(
+            update(Question)
+            .where(Question.id == pk)
+            .values(**kwargs),
+        )

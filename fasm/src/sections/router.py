@@ -8,13 +8,13 @@ from fastapi import (
     Body,
     Depends,
     Security,
-    status,
+    status, BackgroundTasks,
 )
 
 from src.auth.models import User
 from src.dependencies.auth import get_current_user
 from src.dependencies.database import get_repository
-from src.sections import gpt
+from src.sections import gpt, notifications
 from src.sections.repository import (
     QuestionsRepository,
     SectionsRepository,
@@ -106,3 +106,17 @@ async def list_questions(
     repository: Annotated[QuestionsRepository, Depends(get_repository(QuestionsRepository))],
 ):
     await repository.delete(pk)
+
+
+@router.post(
+    path="/{section_id}/questions/{pk}",
+    name="questions:mark_for_review",
+    dependencies=[Security(get_current_user)],
+)
+async def mark_for_review(
+    pk: Annotated[int, "Question's primary key"],
+    repository: Annotated[QuestionsRepository, Depends(get_repository(QuestionsRepository))],
+    worker: Annotated[BackgroundTasks, "Worker to send notifications"],
+):
+    worker.add_task(notifications.send_sms)
+    await repository.update(pk, for_review=True)
