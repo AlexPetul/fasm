@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
-import { useDispatch } from 'react-redux';
-import { Row, Col, Button, Alert } from 'react-bootstrap';
+import {useDispatch} from 'react-redux';
+import {Row, Col, Button, Alert} from 'react-bootstrap';
 
 import * as Yup from 'yup';
-import { Formik } from 'formik';
+import {Formik} from 'formik';
 import axios from 'axios';
 import useScriptRef from '../../../hooks/useScriptRef';
-import { API_SERVER } from './../../../config/constant';
-import { ACCOUNT_INITIALIZE } from './../../../store/actions';
+import {API_SERVER} from './../../../config/constant';
+import {ACCOUNT_INITIALIZE} from './../../../store/actions';
 import Spinner from "../../../components/Spinner/Spinner";
 
-const RestLogin = ({ className, ...rest }) => {
+const RestLogin = ({className, ...rest}) => {
     const dispatcher = useDispatch();
     const scriptedRef = useScriptRef();
     const [loading, setLoading] = useState(false)
@@ -27,7 +27,7 @@ const RestLogin = ({ className, ...rest }) => {
                 validationSchema={Yup.object().shape({
                     password: Yup.string().max(255).required('Password is required')
                 })}
-                onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+                onSubmit={async (values, {setErrors, setStatus, setSubmitting}) => {
                     setLoading(true);
                     try {
                         axios
@@ -37,41 +37,50 @@ const RestLogin = ({ className, ...rest }) => {
                             })
                             .then(function (response) {
                                 if (response.data.access) {
-                                    dispatcher({
-                                        type: ACCOUNT_INITIALIZE,
-                                        payload: { isLoggedIn: true, user: response.data.user, token: response.data.access }
+                                    const access = response.data.access;
+                                    axios.get(API_SERVER + 'auth/me', {
+                                        headers: {Authorization: `Bearer ${access}`}
+                                    }).then(response => {
+                                        dispatcher({
+                                            type: ACCOUNT_INITIALIZE,
+                                            payload: {
+                                                isLoggedIn: true,
+                                                user: response.data,
+                                                token: access,
+                                            }
+                                        });
+                                        if (scriptedRef.current) {
+                                            setStatus({success: true});
+                                            setSubmitting(false);
+                                            setLoading(false);
+                                        }
                                     });
-                                    if (scriptedRef.current) {
-                                        setStatus({ success: true });
-                                        setSubmitting(false);
-                                        setLoading(false);
-                                    }
                                 } else {
-                                    setStatus({ success: false });
-                                    setErrors({ submit: response.data.detail });
+                                    setStatus({success: false});
+                                    setErrors({submit: response.data.detail});
                                     setSubmitting(false);
                                     setLoading(false);
                                 }
                             })
                             .catch(function (error) {
                                 console.log(error);
-                                setStatus({ success: false });
-                                setErrors({ submit: error.response.data.detail });
+                                setStatus({success: false});
+                                setErrors({submit: error.response.data.detail});
                                 setSubmitting(false);
                                 setLoading(false);
                             });
                     } catch (err) {
                         console.error(err);
                         if (scriptedRef.current) {
-                            setStatus({ success: false });
-                            setErrors({ submit: err.message });
+                            setStatus({success: false});
+                            setErrors({submit: err.message});
                             setSubmitting(false);
                             setLoading(false);
                         }
                     }
                 }}
             >
-                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+                {({errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values}) => (
                     <form noValidate onSubmit={handleSubmit} className={className} {...rest}>
                         <div className="form-group mb-3">
                             <input
@@ -84,7 +93,8 @@ const RestLogin = ({ className, ...rest }) => {
                                 onChange={handleChange}
                                 value={values.username}
                             />
-                            {touched.username && errors.username && <small className="text-danger form-text">{errors.username}</small>}
+                            {touched.username && errors.username &&
+                                <small className="text-danger form-text">{errors.username}</small>}
                         </div>
                         <div className="form-group mb-4">
                             <input
@@ -98,7 +108,8 @@ const RestLogin = ({ className, ...rest }) => {
                                 type="password"
                                 value={values.password}
                             />
-                            {touched.password && errors.password && <small className="text-danger form-text">{errors.password}</small>}
+                            {touched.password && errors.password &&
+                                <small className="text-danger form-text">{errors.password}</small>}
                         </div>
 
                         {errors.submit && (

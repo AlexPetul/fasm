@@ -9,11 +9,12 @@ class UsersRepository(BaseRepository):
         result = await self.session.execute(select(User).where(User.cognito_id == cognito_id))
         return result.scalars().one_or_none()
 
-    async def create(self, cognito_id: str, email: str, username: str) -> User:
+    async def create(self, cognito_id: str, email: str, username: str, role: str) -> User:
         instance = User(
             cognito_id=cognito_id,
             email=email,
             username=username,
+            role=role,
         )
 
         self.session.add(instance)

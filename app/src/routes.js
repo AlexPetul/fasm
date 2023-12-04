@@ -46,8 +46,17 @@ const routes = [
         routes: [
             {
                 exact: true,
+                path: '/',
+                component: lazy(() => import('./views/review-list/ReviewList'))
+            },
+            {
+                exact: true,
                 path: '/imperative',
                 component: lazy(() => import('./views/imperative/Imperative'))
+            }, {
+                exact: true,
+                path: '/present-perfect',
+                component: lazy(() => import('./views/present-perfect/PresentPerfect'))
             },
         ]
     }

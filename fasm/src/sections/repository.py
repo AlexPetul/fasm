@@ -46,6 +46,12 @@ class QuestionsRepository(BaseRepository):
         )
         return result.scalars().all()
 
+    async def list_for_review(self):
+        result = await self.session.execute(
+            select(Question).where(Question.for_review == True).order_by(desc(Question.created_at))
+        )
+        return result.scalars().all()
+
     async def create(self, content: str, gpt_answer: str, section_id: int, user_id: int) -> Question:
         instance = Question(
             content=content,
@@ -62,7 +68,6 @@ class QuestionsRepository(BaseRepository):
 
     async def update(self, pk: int, **kwargs):
         await self.session.execute(
-            update(Question)
-            .where(Question.id == pk)
-            .values(**kwargs),
+            update(Question).where(Question.id == pk).values(**kwargs),
         )
+        await self.session.commit()

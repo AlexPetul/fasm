@@ -17,10 +17,12 @@ const Navigation = () => {
     const account = useSelector((state) => state.account);
 
     useEffect(() => {
-        axios.get(API_SERVER + 'sections', {headers: {Authorization: `Bearer ${account.token}`}})
-            .then(response => {
-                setNavigation(response.data);
-            })
+        if (account.user.role === "student") {
+            axios.get(API_SERVER + 'sections', {headers: {Authorization: `Bearer ${account.token}`}})
+                .then(response => {
+                    setNavigation(response.data);
+                })
+        }
     }, []);
 
     let navClass = [

@@ -8,7 +8,11 @@ const GuestGuard = ({ children }) => {
     const { isLoggedIn } = account;
 
     if (isLoggedIn) {
-        return <Redirect to={BASE_URL} />;
+        if (account.user.role === "student") {
+            return <Redirect to={BASE_URL}/>;
+        } else {
+            return <Redirect to="/"/>;
+        }
     }
 
     return <React.Fragment>{children}</React.Fragment>;

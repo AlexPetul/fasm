@@ -40,7 +40,7 @@ const NavRight = () => {
                     <Dropdown className="drp-user">
                         <Dropdown.Toggle as={Link} variant="link" to="#" id="dropdown-basic">
                             <i className="icon feather icon-user"/>
-                            <span> Alex Petul </span>
+                            <span> {account.user.username} </span>
                         </Dropdown.Toggle>
                         <Dropdown.Menu alignRight className="profile-notification">
                             <ListGroup as="ul" bsPrefix=" " variant="flush" className="pro-body">

@@ -13,6 +13,8 @@ class Settings(BaseSettings):
 
     openai_api_key: SecretStr
 
+    reviewer_phone: str
+
 
 @lru_cache
 def get_settings():

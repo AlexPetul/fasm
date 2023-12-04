@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import List
 
 from pydantic import BaseModel
 
@@ -26,9 +27,12 @@ class QuestionType(str, Enum):
 
 class QuestionSchema(BaseModel):
     id: int
+    section_id: int
     content: str
     gpt_answer: str
+    for_review: bool
     user_answer: str | None
+    reviewer_answer: str | None
 
     class Config:
         orm_mode = True
@@ -36,3 +40,12 @@ class QuestionSchema(BaseModel):
 
 class QuestionSchemaCreate(BaseModel):
     type: QuestionType = QuestionType.sentence
+
+
+class QuestionSchemaUpdate(BaseModel):
+    user_answer: str | None = None
+    reviewer_answer: str | None = None
+
+
+class MarkForReviewSchema(BaseModel):
+    ids: List[int]

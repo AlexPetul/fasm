@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react"
 import {Button, Card, Col, Row} from "react-bootstrap";
 import Content from "../Content/Content";
+import {useSelector} from "../../store";
 import axios from "axios";
 import {API_SERVER} from "../../config/constant";
-import {useSelector} from "../../store";
 
 
-const Imperative = () => {
+const PresentPerfect = () => {
     const account = useSelector((state) => state.account);
     const [showCard, setShowCard] = useState(false);
     const [sectionId, setSectionId] = useState()
@@ -58,7 +58,7 @@ const Imperative = () => {
     return (
         sectionId ?
             <Content
-                name="Imperative"
+                name="Present Perfect"
                 rules={rules}
                 setShowInfo={setShowCard}
                 sectionId={sectionId}
@@ -66,4 +66,4 @@ const Imperative = () => {
     )
 }
 
-export default Imperative
+export default PresentPerfect

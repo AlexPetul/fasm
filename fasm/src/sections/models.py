@@ -1,5 +1,6 @@
 from slugify import slugify
 from sqlalchemy import (
+    Boolean,
     Column,
     DateTime,
     ForeignKey,
@@ -7,7 +8,6 @@ from sqlalchemy import (
     String,
     Text,
     event,
-Boolean,
 )
 from sqlalchemy.orm import validates
 from sqlalchemy.sql import func
@@ -47,6 +47,7 @@ class Question(Base):
     content = Column(Text)
     user_answer = Column(Text, nullable=True)
     gpt_answer = Column(Text)
+    reviewer_answer = Column(Text, nullable=True)
     for_review = Column(Boolean, default=False)
     reviewed = Column(Boolean, default=False)
     created_at = Column(DateTime, server_default=func.now())

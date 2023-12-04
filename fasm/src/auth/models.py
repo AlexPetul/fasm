@@ -14,3 +14,4 @@ class User(Base):
     cognito_id = Column(String(36), index=True)
     email = Column(String(200), unique=True, index=True)
     username = Column(String(200), unique=True, index=True)
+    role = Column(String(200))

@@ -5,23 +5,29 @@ from typing import (
 
 from fastapi import (
     APIRouter,
+    BackgroundTasks,
     Body,
     Depends,
     Security,
-    status, BackgroundTasks,
+    status,
 )
 
 from src.auth.models import User
 from src.dependencies.auth import get_current_user
 from src.dependencies.database import get_repository
-from src.sections import gpt, notifications
+from src.sections import (
+    gpt,
+    notifications,
+)
 from src.sections.repository import (
     QuestionsRepository,
     SectionsRepository,
 )
 from src.sections.schemas import (
+    MarkForReviewSchema,
     QuestionSchema,
     QuestionSchemaCreate,
+    QuestionSchemaUpdate,
     SectionSchema,
     SectionSchemaCreate,
 )
@@ -69,7 +75,7 @@ async def create_question(
 ):
     section = await sections_repository.get_by_id(pk)
 
-    question_n_answer = gpt.ask(section=section.name, question_type=data.type)
+    question_n_answer = await gpt.ask(section=section.name, question_type=data.type)
 
     return await questions_repository.create(
         content=question_n_answer["question"],
@@ -108,15 +114,45 @@ async def list_questions(
     await repository.delete(pk)
 
 
-@router.post(
+@router.patch(
     path="/{section_id}/questions/{pk}",
-    name="questions:mark_for_review",
+    name="questions:patch",
     dependencies=[Security(get_current_user)],
 )
-async def mark_for_review(
+async def update_question(
     pk: Annotated[int, "Question's primary key"],
+    data: Annotated[QuestionSchemaUpdate, Body()],
+    repository: Annotated[QuestionsRepository, Depends(get_repository(QuestionsRepository))],
+):
+    await repository.update(pk, **data.model_dump(exclude_none=True))
+
+
+@router.patch(
+    path="/{section_id}/questions",
+    name="questions:mark_for_review",
+)
+async def mark_for_review(
+    data: Annotated[MarkForReviewSchema, Body()],
+    current_user: Annotated[User, Depends(get_current_user)],
     repository: Annotated[QuestionsRepository, Depends(get_repository(QuestionsRepository))],
     worker: Annotated[BackgroundTasks, "Worker to send notifications"],
 ):
-    worker.add_task(notifications.send_sms)
-    await repository.update(pk, for_review=True)
+    for pk in data.ids:
+        await repository.update(pk, for_review=True)
+
+    worker.add_task(
+        notifications.send_sms,
+        username=current_user.username,
+        questions_count=len(data.ids),
+    )
+
+
+@router.get(
+    path="/questions",
+    name="questions:list-all",
+    response_model=List[QuestionSchema],
+)
+async def get_all(
+    repository: Annotated[QuestionsRepository, Depends(get_repository(QuestionsRepository))],
+):
+    return await repository.list_for_review()

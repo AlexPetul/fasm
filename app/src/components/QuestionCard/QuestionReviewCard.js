@@ -20,25 +20,13 @@ const CustomToggle = React.forwardRef(({children, onClick}, ref) => (
 ));
 
 
-const QuestionCard = ({data, sectionId, onDelete, onSelect, onDeSelect}) => {
-    const [revealed, setRevealed] = useState(false)
-    const [answer, setAnswer] = useState(data.user_answer)
-    const [selected, setSelected] = useState(false)
+const QuestionReviewCard = ({data}) => {
+    const [showComment, setShowComment] = useState(data.reviewer_answer !== null)
+    const [reviewerAnswer, setReviewerAnswer] = useState(data.reviewer_answer)
     const account = useSelector((state) => state.account)
 
-    const remove = () => {
-        axios.delete(API_SERVER + `sections/${sectionId}/questions/${data.id}`, {
-            headers: {Authorization: `Bearer ${account.token}`}
-        })
-            .then(response => {
-                onDelete(data.id);
-            })
-            .catch(error => {
-            })
-    }
-
     const save = () => {
-        axios.patch(API_SERVER + `sections/${sectionId}/questions/${data.id}`, {user_answer: answer}, {
+        axios.patch(API_SERVER + `sections/${data.section_id}/questions/${data.id}`, {reviewer_answer: reviewerAnswer}, {
             headers: {Authorization: `Bearer ${account.token}`}
         })
             .then(response => {
@@ -46,34 +34,16 @@ const QuestionCard = ({data, sectionId, onDelete, onSelect, onDeSelect}) => {
             })
             .catch(error => {
             })
-    }
-
-    const onChangeSelect = (e) => {
-        if (e.target.checked) {
-            onSelect(data.id)
-        } else {
-            onDeSelect(data.id)
-        }
-        setSelected(!selected);
     }
 
     return (
         <Row>
             <Col lg={12}>
-                <Card className={`m-3 pt-3 ${data.for_review ? 'for-review' : ''}`}>
-                    {data.for_review === false ?
-                        <Form.Check
-                            type="checkbox"
-                            className="position-absolute"
-                            checked={selected}
-                            onChange={onChangeSelect}
-                            style={{top: 10, left: 10}}
-                        /> : null}
+                <Card className="m-3 pt-3">
                     <Card.Body className="pt-50">
                         <Card.Title className="d-flex justify-content-between">
                             <div className="pr-2">
                                 <span>{data.content}</span>
-                                <span className={revealed ? `d-inline` : `d-none`}> {data.gpt_answer}</span>
                             </div>
                             <Dropdown alignRight={true}>
                                 <Dropdown.Toggle as={CustomToggle}>
@@ -82,11 +52,10 @@ const QuestionCard = ({data, sectionId, onDelete, onSelect, onDeSelect}) => {
                                 <Dropdown.Menu>
                                     <Dropdown.Item
                                         href="#"
-                                        onClick={() => setRevealed(true)}
+                                        onClick={() => setShowComment(true)}
                                     >
-                                        Reveal
+                                        Add comment
                                     </Dropdown.Item>
-                                    <Dropdown.Item href="#" onClick={remove}>Delete</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Card.Title>
@@ -95,11 +64,20 @@ const QuestionCard = ({data, sectionId, onDelete, onSelect, onDeSelect}) => {
                                 <Form.Control
                                     as="textarea"
                                     rows={3}
-                                    onBlur={() => save()}
-                                    onChange={(e) => setAnswer(e.target.value)}
-                                    value={answer}
+                                    readOnly={true}
+                                    value={data.user_answer}
                                 />
                             </Form.Group>
+                            {showComment ?
+                                <Form.Group>
+                                    <Form.Control
+                                        as="textarea"
+                                        rows={3}
+                                        onBlur={() => save()}
+                                        onChange={(e) => setReviewerAnswer(e.target.value)}
+                                        value={reviewerAnswer}
+                                    />
+                                </Form.Group> : null}
                         </Form>
                     </Card.Body>
                 </Card>
@@ -108,4 +86,4 @@ const QuestionCard = ({data, sectionId, onDelete, onSelect, onDeSelect}) => {
     )
 }
 
-export default QuestionCard
+export default QuestionReviewCard

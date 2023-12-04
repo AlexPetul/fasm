@@ -27,14 +27,14 @@ services:
     networks:
       - ig_webapp
 
-  node:
-    build:
-      context: .
-      dockerfile: ./app/Dockerfile
-    volumes:
-      - "./node:/node"
-    ports:
-      - "3000:3000"
+#  node:
+#    build:
+#      context: .
+#      dockerfile: ./app/Dockerfile
+#    volumes:
+#      - "./node:/node"
+#    ports:
+#      - "3000:3000"
 
   preloader:
     build:

@@ -19,7 +19,7 @@ async def login(username: str, password: str, user_repository):
     settings = get_settings()
     client = await get_cognito_client()
 
-    async with client() as client:
+    async with client as client:
         try:
             response_token = await client.initiate_auth(
                 AuthFlow="USER_PASSWORD_AUTH",
@@ -43,7 +43,7 @@ async def login(username: str, password: str, user_repository):
                         "USERNAME": username,
                         "PASSWORD": password,
                     },
-                    ClientId=settings.aws_secret_access_key.get_secret_value(),
+                    ClientId=settings.aws_cognito_client_id.get_secret_value(),
                 )
 
             response_user = await client.get_user(AccessToken=response_token["AuthenticationResult"]["AccessToken"])
@@ -51,10 +51,16 @@ async def login(username: str, password: str, user_repository):
             user_attributes = {attr["Name"]: attr["Value"] for attr in response_user["UserAttributes"]}
 
             if not await user_repository.get_by_cognito_id(cognito_id=user_attributes["sub"]):
+                groups_response = await client.admin_list_groups_for_user(
+                    Username=username,
+                    UserPoolId=settings.aws_cognito_user_pool.get_secret_value(),
+                    Limit=1,
+                )
                 await user_repository.create(
                     cognito_id=user_attributes["sub"],
                     username=response_user["Username"],
                     email=user_attributes["email"],
+                    role=groups_response["Groups"][0]["GroupName"],
                 )
 
             return (
@@ -69,8 +75,8 @@ async def login(username: str, password: str, user_repository):
 async def logout(access_token: str):
     client = await get_cognito_client()
 
-    async with client() as client:
+    async with client:
         try:
             await client.global_sign_out(AccessToken=access_token)
-        except client.exceptions.NotAuthorizedException:
+        except Exception:
             pass

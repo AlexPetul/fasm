@@ -2,7 +2,11 @@ import json
 
 from openai import AsyncOpenAI
 
-client = AsyncOpenAI(api_key="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")
+from src.settings import get_settings
+
+settings = get_settings()
+
+client = AsyncOpenAI(api_key=settings.openai_api_key.get_secret_value())
 
 
 async def ask(section: str, question_type: str) -> dict:
@@ -13,7 +17,7 @@ async def ask(section: str, question_type: str) -> dict:
         f"where question is an english {question_type} and answer is the translation of {question_type} in Finglish."
     )
 
-    completion = client.chat.completions.create(
+    completion = await client.chat.completions.create(
         model="gpt-4",
         messages=[{"role": "user", "content": prompt}],
         temperature=1,
