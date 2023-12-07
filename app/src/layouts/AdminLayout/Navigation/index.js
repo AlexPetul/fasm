@@ -17,7 +17,7 @@ const Navigation = () => {
     const account = useSelector((state) => state.account);
 
     useEffect(() => {
-        if (account.user.role === "student") {
+        if (account.user && account.user.role === "student") {
             axios.get(API_SERVER + 'sections', {headers: {Authorization: `Bearer ${account.token}`}})
                 .then(response => {
                     setNavigation(response.data);
