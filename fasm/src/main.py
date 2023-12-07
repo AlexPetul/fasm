@@ -11,11 +11,14 @@ def get_application() -> FastAPI:
     # Middleware settings
     application.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
+        allow_origins=[
+            "http://localhost:8000",
+            "http://localhost:3000",
+            "http://fasm-lb-1127411382.us-east-1.elb.amazonaws.com",
+        ],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
-        expose_headers=["*"],
     )
 
     application.include_router(auth_router, prefix="/api")
