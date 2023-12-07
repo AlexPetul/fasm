@@ -57,7 +57,7 @@ async def create_section(
     data: Annotated[SectionSchemaCreate, Body()],
     repository: Annotated[SectionsRepository, Depends(get_repository(SectionsRepository))],
 ):
-    return await repository.create(name=data.name)
+    return await repository.create(**data.model_dump())
 
 
 @router.post(
@@ -75,7 +75,18 @@ async def create_question(
 ):
     section = await sections_repository.get_by_id(pk)
 
-    question_n_answer = await gpt.ask(section=section.name, question_type=data.type)
+    if data.content is not None:
+        return await questions_repository.create(
+            content=data.content,
+            section_id=pk,
+            user_id=current_user.id,
+        )
+
+    question_n_answer = await gpt.ask(
+        section=section.name,
+        question_type=data.type,
+        hint=section.gpt_hint,
+    )
 
     return await questions_repository.create(
         content=question_n_answer["question"],

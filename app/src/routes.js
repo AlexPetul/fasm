@@ -53,10 +53,26 @@ const routes = [
                 exact: true,
                 path: '/imperative',
                 component: lazy(() => import('./views/imperative/Imperative'))
-            }, {
+            },
+            {
                 exact: true,
                 path: '/present-perfect',
                 component: lazy(() => import('./views/present-perfect/PresentPerfect'))
+            },
+            {
+                exact: true,
+                path: '/present-continues',
+                component: lazy(() => import('./views/present-continuos/PresentContinuos'))
+            },
+            {
+                exact: true,
+                path: '/intention',
+                component: lazy(() => import('./views/Intention/Intention'))
+            },
+            {
+                exact: true,
+                path: '/modals',
+                component: lazy(() => import('./views/Modals/Modals'))
             },
         ]
     }

@@ -6,7 +6,7 @@ import axios from "axios";
 import {API_SERVER} from "../../config/constant";
 
 
-const PresentPerfect = () => {
+const PresentContinues = () => {
     const account = useSelector((state) => state.account);
     const [showCard, setShowCard] = useState(false);
     const [sectionId, setSectionId] = useState()
@@ -58,7 +58,7 @@ const PresentPerfect = () => {
     return (
         sectionId ?
             <Content
-                name="Present Perfect"
+                name="Present Continues"
                 rules={rules}
                 setShowInfo={setShowCard}
                 sectionId={sectionId}
@@ -66,4 +66,4 @@ const PresentPerfect = () => {
     )
 }
 
-export default PresentPerfect
+export default PresentContinues

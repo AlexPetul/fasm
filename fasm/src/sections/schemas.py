@@ -15,6 +15,7 @@ class SectionSchema(BaseModel):
 
 class SectionSchemaCreate(BaseModel):
     name: str
+    gpt_hint: str | None = None
 
     class Config:
         orm_mode = True
@@ -31,6 +32,7 @@ class QuestionSchema(BaseModel):
     content: str
     gpt_answer: str
     for_review: bool
+    gpt_answer: str | None
     user_answer: str | None
     reviewer_answer: str | None
 
@@ -39,6 +41,7 @@ class QuestionSchema(BaseModel):
 
 
 class QuestionSchemaCreate(BaseModel):
+    content: str | None = None
     type: QuestionType = QuestionType.sentence
 
 

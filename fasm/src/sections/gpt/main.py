@@ -9,10 +9,10 @@ settings = get_settings()
 client = AsyncOpenAI(api_key=settings.openai_api_key.get_secret_value())
 
 
-async def ask(section: str, question_type: str) -> dict:
+async def ask(section: str, question_type: str, hint: str = None) -> dict:
     prompt = (
-        f"As an expert in colloquial Persian, generate random {question_type} in English on this topic: {section}."
-        "The answer should offer uniqueness."
+        f"As an expert in Persian, generate random simple {question_type} in English on this topic: {hint or section}."
+        "The answer should offer uniqueness and have informal form."
         "Display an answer as dictionary with double quotes with two keys: question and answer,"
         f"where question is an english {question_type} and answer is the translation of {question_type} in Finglish."
     )

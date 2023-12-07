@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react"
 import {Button, Card, Col, Row} from "react-bootstrap";
 import Content from "../Content/Content";
-import {useSelector} from "../../store";
 import axios from "axios";
 import {API_SERVER} from "../../config/constant";
+import {useSelector} from "../../store";
 
 
-const PresentPerfect = () => {
+const Intension = () => {
     const account = useSelector((state) => state.account);
     const [showCard, setShowCard] = useState(false);
     const [sectionId, setSectionId] = useState()
@@ -23,29 +23,34 @@ const PresentPerfect = () => {
             <Card style={{minWidth: "30rem", height: "calc(100vh - 100px)"}}>
                 <Card.Body>
                     <Card.Title>
-                        <b>past stem + ending</b><br/>
-                        <b>Exception: She/He - ending <i>e</i></b>
+                        <b>To want - khaastan (khaa)</b><br/>
+                        <b>With noun: mi + khaa + endings</b><br/>
+                        <b>With verbs: mi + khaa + endings be(bo) + verb stem</b>
                     </Card.Title>
                     <Card.Text>
                         <Row>
-                            <Col lg={6}>I haven't watched this movie</Col>
-                            <Col lg={6}>In filmo nadidam</Col>
+                            <Col lg={6}>She wants food</Col>
+                            <Col lg={6}>Oona ghaza mikhaad</Col>
                         </Row>
                         <Row>
-                            <Col lg={6}></Col>
-                            <Col lg={6}>Khoshhal baash</Col>
+                            <Col lg={6}>We want freedom</Col>
+                            <Col lg={6}>Maa aazaadi mikhaaim</Col>
                         </Row>
                         <Row>
-                            <Col lg={6}>Look at him</Col>
-                            <Col lg={6}>Oono <b>be</b>bin</Col>
+                            <Col lg={6}>He wants to go home</Col>
+                            <Col lg={6}>Oon mikhaad bege khoone</Col>
                         </Row>
                         <Row>
-                            <Col lg={6}>Drink a lot of water</Col>
-                            <Col lg={6}>Aab ziyaad <b>bo</b>khor</Col>
+                            <Col lg={6}>I want to know</Col>
+                            <Col lg={6}>Man mikhaam bedoonam</Col>
                         </Row>
                         <Row>
-                            <Col lg={6}>Watch films</Col>
-                            <Col lg={6}>Film <b>be</b>bin</Col>
+                            <Col lg={6}>They want to close the door</Col>
+                            <Col lg={6}>Oona mikhaan daaro bebandan</Col>
+                        </Row>
+                        <Row>
+                            <Col lg={6}>I want to do sport</Col>
+                            <Col lg={6}>Man mikhaam varzesh bokonam</Col>
                         </Row>
                     </Card.Text>
                     <Button style={{bottom: 20, width: "calc(100% - 45px)"}} className="position-absolute"
@@ -58,7 +63,7 @@ const PresentPerfect = () => {
     return (
         sectionId ?
             <Content
-                name="Present Perfect"
+                name="Intention (to want)"
                 rules={rules}
                 setShowInfo={setShowCard}
                 sectionId={sectionId}
@@ -66,4 +71,4 @@ const PresentPerfect = () => {
     )
 }
 
-export default PresentPerfect
+export default Intension

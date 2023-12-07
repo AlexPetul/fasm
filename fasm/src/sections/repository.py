@@ -20,8 +20,8 @@ class SectionsRepository(BaseRepository):
         result = await self.session.execute(select(Section))
         return result.scalars().all()
 
-    async def create(self, name: str) -> Section:
-        instance = Section(name=name)
+    async def create(self, name: str, gpt_hint: str | None = None) -> Section:
+        instance = Section(name=name, gpt_hint=gpt_hint)
 
         self.session.add(instance)
         await self.session.flush()
@@ -52,7 +52,7 @@ class QuestionsRepository(BaseRepository):
         )
         return result.scalars().all()
 
-    async def create(self, content: str, gpt_answer: str, section_id: int, user_id: int) -> Question:
+    async def create(self, content: str, section_id: int, user_id: int, gpt_answer: str | None = None) -> Question:
         instance = Question(
             content=content,
             section_id=section_id,

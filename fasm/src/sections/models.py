@@ -21,6 +21,7 @@ class Section(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), unique=True)
     slug = Column(String(200), unique=True)
+    gpt_hint = Column(String, nullable=True)
 
     @validates("name")
     def convert_name_to_slug(self, key, value):
@@ -46,7 +47,7 @@ class Question(Base):
     id = Column(Integer, primary_key=True, index=True)
     content = Column(Text)
     user_answer = Column(Text, nullable=True)
-    gpt_answer = Column(Text)
+    gpt_answer = Column(Text, nullable=True)
     reviewer_answer = Column(Text, nullable=True)
     for_review = Column(Boolean, default=False)
     reviewed = Column(Boolean, default=False)
