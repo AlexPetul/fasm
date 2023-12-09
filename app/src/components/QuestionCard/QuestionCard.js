@@ -100,6 +100,15 @@ const QuestionCard = ({data, sectionId, onDelete, onSelect, onDeSelect}) => {
                                     value={answer}
                                 />
                             </Form.Group>
+                            {data.reviewer_answer ?
+                                <Form.Group>
+                                    <Form.Control
+                                        as="textarea"
+                                        rows={3}
+                                        value={data.reviewer_answer}
+                                        readOnly={true}
+                                    />
+                                </Form.Group> : null}
                         </Form>
                     </Card.Body>
                 </Card>
