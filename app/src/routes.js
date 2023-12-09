@@ -74,6 +74,11 @@ const routes = [
                 path: '/modals',
                 component: lazy(() => import('./views/Modals/Modals'))
             },
+            {
+                exact: true,
+                path: '/dictionary',
+                component: lazy(() => import('./views/dictionary/Dictionary'))
+            },
         ]
     }
 ];

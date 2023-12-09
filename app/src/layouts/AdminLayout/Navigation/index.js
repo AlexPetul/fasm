@@ -56,11 +56,16 @@ const Navigation = () => {
                                    id="nav-ps-next">
                             {navigation.map((x) =>
                                 <ListGroup.Item as="li" bsPrefix=" " className="">
-                                    <NavLink to={x.slug} className="nav-link" exact={true} >
+                                    <NavLink to={x.slug} className="nav-link" exact={true}>
                                         {x.name}
                                     </NavLink>
                                 </ListGroup.Item>
                             )}
+                            <ListGroup.Item as="li" bsPrefix=" " className="">
+                                <NavLink to="/dictionary" className="nav-link" exact={true}>
+                                    Dictionary
+                                </NavLink>
+                            </ListGroup.Item>
                         </ListGroup>
                     </div>
                 </div>
