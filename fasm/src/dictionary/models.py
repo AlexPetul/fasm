@@ -14,3 +14,10 @@ class Verb(Base):
     eng = Column(String(100), unique=True)
     farsi = Column(String(100))
     stem = Column(String(50))
+
+
+class Vocabulary(Base):
+    __tablename__ = "vocabulary"
+
+    eng = Column(String(100), primary_key=True, unique=True)
+    farsi = Column(String(100))

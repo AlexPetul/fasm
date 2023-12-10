@@ -1,12 +1,16 @@
 from sqlalchemy import select
 
 from src.db.repository import BaseRepository
-from src.dictionary.models import Verb
+from src.dictionary.models import Verb, Vocabulary
 
 
 class DictionaryRepository(BaseRepository):
     async def get_verbs(self):
         result = await self.session.execute(select(Verb))
+        return result.scalars().all()
+
+    async def get_vocabulary(self):
+        result = await self.session.execute(select(Vocabulary).order_by(Vocabulary.eng))
         return result.scalars().all()
 
     async def create_verb(self, **kwargs) -> Verb:

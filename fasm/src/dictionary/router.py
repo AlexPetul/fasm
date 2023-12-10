@@ -13,7 +13,7 @@ from fastapi import (
 from src.dependencies.auth import get_current_user
 from src.dependencies.database import get_repository
 from src.dictionary.repository import DictionaryRepository
-from src.dictionary.schemas import VerbSchema, VerbSchemaCreate
+from src.dictionary.schemas import VerbSchema, VerbSchemaCreate, VocabularySchema
 
 router = APIRouter(prefix="/dictionary")
 
@@ -27,6 +27,17 @@ router = APIRouter(prefix="/dictionary")
 )
 async def verbs(repository: Annotated[DictionaryRepository, Depends(get_repository(DictionaryRepository))]):
     return await repository.get_verbs()
+
+
+@router.get(
+    path="/vocabulary",
+    status_code=status.HTTP_200_OK,
+    name="verbs:list",
+    response_model=List[VocabularySchema],
+    dependencies=[Security(get_current_user)],
+)
+async def verbs(repository: Annotated[DictionaryRepository, Depends(get_repository(DictionaryRepository))]):
+    return await repository.get_vocabulary()
 
 
 @router.post(

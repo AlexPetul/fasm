@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
 from src.auth.models import User
 from src.sections.models import Question, Section
-from src.dictionary.models import Verb
+from src.dictionary.models import Verb, Vocabulary
 
 
 config = context.config

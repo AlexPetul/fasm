@@ -18,3 +18,11 @@ class VerbSchemaCreate(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class VocabularySchema(BaseModel):
+    eng: str
+    farsi: str
+
+    class Config:
+        orm_mode = True

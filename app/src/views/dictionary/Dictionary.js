@@ -10,12 +10,24 @@ import QuestionReviewCard from "../../components/QuestionCard/QuestionReviewCard
 const Dictionary = () => {
     const account = useSelector((state) => state.account);
     const [verbs, setVerbs] = useState([])
+    const [vocabulary, setVocabulary] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         axios.get(API_SERVER + `dictionary/verbs`, {headers: {Authorization: `Bearer ${account.token}`}})
             .then(response => {
                 setVerbs(response.data)
+                setIsLoading(false);
+            })
+            .catch(error => {
+                setIsLoading(false);
+            })
+    }, [])
+
+    useEffect(() => {
+        axios.get(API_SERVER + `dictionary/vocabulary`, {headers: {Authorization: `Bearer ${account.token}`}})
+            .then(response => {
+                setVocabulary(response.data)
                 setIsLoading(false);
             })
             .catch(error => {
@@ -44,6 +56,23 @@ const Dictionary = () => {
                                 </Col>
                                 <Col lg={8}>
                                     <div>{x.farsi} ({x.stem})</div>
+                                </Col>
+                            </Row>
+                        )}
+                    </Card.Body>
+                </Card>
+                <Card className="col-lg-12">
+                    <Card.Header>
+                        <Card.Title as="h4">Vocabulary</Card.Title>
+                    </Card.Header>
+                    <Card.Body>
+                        {vocabulary.map((x) =>
+                            <Row>
+                                <Col lg={4}>
+                                    <div>{x.eng}</div>
+                                </Col>
+                                <Col lg={8}>
+                                    <div>{x.farsi}</div>
                                 </Col>
                             </Row>
                         )}
