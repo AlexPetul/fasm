@@ -66,13 +66,13 @@ const Dictionary = () => {
                         <Card.Title as="h4">Prepositions</Card.Title>
                     </Card.Header>
                     <Card.Body>
-                        {verbs.filter(x => x.preposition === true).map((x) =>
+                        {vocabulary.filter(x => x.preposition === true).map((x) =>
                             <Row>
                                 <Col lg={4}>
                                     <div>{x.eng}</div>
                                 </Col>
                                 <Col lg={8}>
-                                    <div>{x.farsi} ({x.stem})</div>
+                                    <div>{x.farsi}</div>
                                 </Col>
                             </Row>
                         )}
