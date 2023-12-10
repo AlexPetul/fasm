@@ -1,7 +1,10 @@
 from sqlalchemy import select
 
 from src.db.repository import BaseRepository
-from src.dictionary.models import Verb, Vocabulary
+from src.dictionary.models import (
+    Verb,
+    Vocabulary,
+)
 
 
 class DictionaryRepository(BaseRepository):

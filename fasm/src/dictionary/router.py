@@ -5,15 +5,20 @@ from typing import (
 
 from fastapi import (
     APIRouter,
+    Body,
     Depends,
     Security,
-    status, Body,
+    status,
 )
 
 from src.dependencies.auth import get_current_user
 from src.dependencies.database import get_repository
 from src.dictionary.repository import DictionaryRepository
-from src.dictionary.schemas import VerbSchema, VerbSchemaCreate, VocabularySchema
+from src.dictionary.schemas import (
+    VerbSchema,
+    VerbSchemaCreate,
+    VocabularySchema,
+)
 
 router = APIRouter(prefix="/dictionary")
 
