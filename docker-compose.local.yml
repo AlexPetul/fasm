@@ -66,7 +66,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     healthcheck:
-      test: [ "CMD", "pg_isready", "--dbname=${DB_NAME}", "--username=${DB_USER}" ]
+      test: [ "CMD", "pg_isready", "--dbname=${POSTGRES_DB}", "--username=${POSTGRES_USER}" ]
       interval: 3s
       timeout: 1s  # maximum duration of one check
       retries: 3  # after how many unsuccessful attempts will the status become unhealthy
