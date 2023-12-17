@@ -14,7 +14,11 @@ from src.sections.router import router as sections_router
 
 
 def get_application() -> FastAPI:
-    application = FastAPI()
+    application = FastAPI(
+        docs_url="/docs",
+        openapi_url="/openapi.json",
+        redoc_url=None,
+    )
 
     # Middleware settings
     application.add_middleware(
