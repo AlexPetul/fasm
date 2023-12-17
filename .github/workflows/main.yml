@@ -21,7 +21,4 @@ jobs:
 
       - name: Connect to EC2 and Restart Docker Compose
         run: |
-          ssh ubuntu@3.94.1.12 
-          && cd fasm
-          && git pull
-          && docker-compose up -d --force-recreate
+          ssh ubuntu@3.94.1.12 'cd fasm && git pull && docker-compose up -d --force-recreate'
