@@ -12,8 +12,6 @@ RUN \
     && rm -rf /root/.cache \
     && apk add --no-cache postgresql-libs libffi zlib libjpeg bash
 
-RUN ls -l
-
 COPY . /app
 
 WORKDIR /app

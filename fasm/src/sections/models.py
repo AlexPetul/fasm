@@ -9,6 +9,7 @@ from sqlalchemy import (
     Text,
     event,
 )
+from sqlalchemy.dialects.postgresql import JSON
 from sqlalchemy.orm import validates
 from sqlalchemy.sql import func
 
@@ -22,6 +23,7 @@ class Section(Base):
     name = Column(String(100), unique=True)
     slug = Column(String(200), unique=True)
     gpt_hint = Column(String, nullable=True)
+    rule = Column(JSON)
 
     @validates("name")
     def convert_name_to_slug(self, key, value):

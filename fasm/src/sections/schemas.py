@@ -21,6 +21,22 @@ class SectionSchemaCreate(BaseModel):
         orm_mode = True
 
 
+class SectionRuleExamplesSchema(BaseModel):
+    eng: str
+    farsi: str
+
+    class Config:
+        orm_mode = True
+
+
+class SectionRuleSchema(BaseModel):
+    grammar: str
+    examples: List[SectionRuleExamplesSchema]
+
+    class Config:
+        orm_mode = True
+
+
 class QuestionType(str, Enum):
     sentence = "sentence"
     story = "story"

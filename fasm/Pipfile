@@ -26,6 +26,7 @@ requests = {version = "*", index="pypi"}
 python-jose = {version = "*", index="pypi"}
 python-slugify = {version = "*", index="pypi"}
 openai = {version = "*", index="pypi"}
+sqladmin = {version = "*", index="pypi", extras=["full"]}
 
 [requires]
 python_version = "3.11"

@@ -28,8 +28,8 @@ from src.sections.schemas import (
     QuestionSchema,
     QuestionSchemaCreate,
     QuestionSchemaUpdate,
+    SectionRuleSchema,
     SectionSchema,
-    SectionSchemaCreate,
 )
 
 router = APIRouter(prefix="/sections")
@@ -46,18 +46,29 @@ async def sections(repository: Annotated[SectionsRepository, Depends(get_reposit
     return await repository.list()
 
 
-@router.post(
+@router.get(
     path="",
-    status_code=status.HTTP_201_CREATED,
-    name="sections:create",
-    response_model=SectionSchema,
+    status_code=status.HTTP_200_OK,
+    name="sections:list",
+    response_model=List[SectionSchema],
     dependencies=[Security(get_current_user)],
 )
-async def create_section(
-    data: Annotated[SectionSchemaCreate, Body()],
+async def sections(repository: Annotated[SectionsRepository, Depends(get_repository(SectionsRepository))]):
+    return await repository.list()
+
+
+@router.get(
+    path="/{pk}/rules",
+    status_code=status.HTTP_200_OK,
+    name="sections:rules",
+    response_model=SectionRuleSchema,
+    dependencies=[Security(get_current_user)],
+)
+async def section_rules(
+    pk: Annotated[int, "Section's primary key"],
     repository: Annotated[SectionsRepository, Depends(get_repository(SectionsRepository))],
 ):
-    return await repository.create(**data.model_dump())
+    return await repository.get_rule(pk)
 
 
 @router.post(

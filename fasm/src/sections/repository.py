@@ -20,6 +20,10 @@ class SectionsRepository(BaseRepository):
         result = await self.session.execute(select(Section))
         return result.scalars().all()
 
+    async def get_rule(self, pk: int):
+        result = await self.session.execute(select(Section.rule).where(Section.id == pk))
+        return result.scalars().one_or_none()
+
     async def create(self, name: str, gpt_hint: str | None = None) -> Section:
         instance = Section(name=name, gpt_hint=gpt_hint)
 
