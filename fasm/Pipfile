@@ -11,22 +11,24 @@ httpx = {version = "==0.23.*", index="pypi"}
 factory-boy = {version = "==3.2.*", index = "pypi"}
 
 [packages]
-uvicorn = {version = "*", index="pypi"}
-fastapi = {version = "*", index="pypi"}
-asyncpg = {version = "*", index="pypi"}
-aioboto3 = {version = "*", index="pypi"}
-sqlalchemy = {version = "*", index="pypi"}
+uvicorn = {version = "0.24.0.post1", index="pypi"}
+fastapi = {version = "0.105.*", index="pypi"}
+fastapi-restful = {version = "*", index="pypi"}
+typing-inspect = {version = "0.9.*", index="pypi"}
+asyncpg = {version = "0.29.*", index="pypi"}
+aioboto3 = {version = "12.1.*", index="pypi"}
+sqlalchemy = {version = "2.0.*", index="pypi"}
 psycopg2-binary = {version = "*", index="pypi"}
-python-dotenv = {version = "*", index="pypi"}
-alembic = {version = "*", index="pypi"}
-PyJWT = {version = "*", index="pypi"}
-pydantic = {version = "*", index="pypi", extras=["email"]}
-pydantic-settings = {version = "*", index="pypi"}
-requests = {version = "*", index="pypi"}
-python-jose = {version = "*", index="pypi"}
-python-slugify = {version = "*", index="pypi"}
-openai = {version = "*", index="pypi"}
-sqladmin = {version = "*", index="pypi", extras=["full"]}
+python-dotenv = {version = "1.0.*", index="pypi"}
+alembic = {version = "1.13.*", index="pypi"}
+PyJWT = {version = "2.8.*", index="pypi"}
+pydantic = {version = "2.5.*", index="pypi", extras=["email"]}
+pydantic-settings = {version = "2.1.*", index="pypi"}
+requests = {version = "2.31.*", index="pypi"}
+python-jose = {version = "3.3.*", index="pypi"}
+python-slugify = {version = "8.0.*", index="pypi"}
+openai = {version = "1.5.*", index="pypi"}
+sqladmin = {version = "0.16.*", index="pypi", extras=["full"]}
 
 [requires]
 python_version = "3.11"
