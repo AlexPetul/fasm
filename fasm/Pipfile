@@ -8,27 +8,27 @@ pytest = {version = "==7.1.*", index="pypi"}
 pytest-asyncio = {version = "==0.19.*", index="pypi"}
 pytest-cov = {version = "==4.0.*", index="pypi"}
 httpx = {version = "==0.23.*", index="pypi"}
-factory-boy = {version = "==3.2.*", index = "pypi"}
+factory-boy = {version = "==3.3.*", index = "pypi"}
 
 [packages]
-uvicorn = {version = "0.24.0.post1", index="pypi"}
-fastapi = {version = "0.105.*", index="pypi"}
+uvicorn = {version = "==0.24.0.post1", index="pypi"}
+fastapi = {version = "==0.105.*", index="pypi"}
 fastapi-restful = {version = "*", index="pypi"}
-typing-inspect = {version = "0.9.*", index="pypi"}
-asyncpg = {version = "0.29.*", index="pypi"}
-aioboto3 = {version = "12.1.*", index="pypi"}
-sqlalchemy = {version = "2.0.*", index="pypi"}
+typing-inspect = {version = "==0.9.*", index="pypi"}
+asyncpg = {version = "==0.29.*", index="pypi"}
+aioboto3 = {version = "==12.1.*", index="pypi"}
+sqlalchemy = {version = "==2.0.*", index="pypi"}
 psycopg2-binary = {version = "*", index="pypi"}
-python-dotenv = {version = "1.0.*", index="pypi"}
-alembic = {version = "1.13.*", index="pypi"}
-PyJWT = {version = "2.8.*", index="pypi"}
-pydantic = {version = "2.5.*", index="pypi", extras=["email"]}
-pydantic-settings = {version = "2.1.*", index="pypi"}
-requests = {version = "2.31.*", index="pypi"}
-python-jose = {version = "3.3.*", index="pypi"}
-python-slugify = {version = "8.0.*", index="pypi"}
-openai = {version = "1.5.*", index="pypi"}
-sqladmin = {version = "0.16.*", index="pypi", extras=["full"]}
+python-dotenv = {version = "==1.0.*", index="pypi"}
+alembic = {version = "==1.13.*", index="pypi"}
+PyJWT = {version = "==2.8.*", index="pypi"}
+pydantic = {version = "==2.5.*", index="pypi", extras=["email"]}
+pydantic-settings = {version = "==2.1.*", index="pypi"}
+requests = {version = "==2.31.*", index="pypi"}
+python-jose = {version = "==3.3.*", index="pypi"}
+python-slugify = {version = "==8.0.*", index="pypi"}
+openai = {version = "==1.5.*", index="pypi"}
+sqladmin = {version = "==0.16.*", index="pypi", extras=["full"]}
 
 [requires]
 python_version = "3.11"

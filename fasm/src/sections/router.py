@@ -36,7 +36,7 @@ class SectionsView:
     user: User = Security(get_current_user)
     repository: SectionsRepository = Depends(get_repository(SectionsRepository))
 
-    @router.get("/sections")
+    @router.get("/sections", name="sections:list")
     async def list_sections(self) -> List[SectionSchema]:
         """Get list of available sections."""
         return await self.repository.list()
@@ -55,7 +55,9 @@ class QuestionsView:
 
     @router.post("/sections/{pk}/questions", status_code=status.HTTP_201_CREATED)
     async def create_question(
-        self, pk: Annotated[int, "Section's primary key"], data: Annotated[QuestionSchemaCreate, Body()]
+        self,
+        pk: Annotated[int, "Section's primary key"],
+        data: Annotated[QuestionSchemaCreate, Body()],
     ) -> QuestionSchema:
         section = await self.sections_repository.get_by_id(pk)
 
