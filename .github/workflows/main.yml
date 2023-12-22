@@ -12,10 +12,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Create env file
+        run: |
+          echo "${{ env.ENV_FILE }}" > .env
+
       - name: Run tests
         run: |
-          # Add your testing commands here
-          echo ${{ env }}
           docker compose -f docker-compose.test.yml 
 
   deploy:
