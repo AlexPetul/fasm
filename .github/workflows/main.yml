@@ -15,6 +15,7 @@ jobs:
       - name: Run tests
         run: |
           # Add your testing commands here
+          echo ${{ env }}
           docker compose -f docker-compose.test.yml 
 
   deploy:
