@@ -5,7 +5,7 @@ services:
     build:
       context: ./fasm
       dockerfile: ./Dockerfile
-    command: sh -c "python -m pytest"
+    command: sh -c "python -m pytest --capture=no"
     volumes:
       - "./fasm:/app"
     ports:

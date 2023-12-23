@@ -41,7 +41,7 @@ class SectionsView:
         """Get list of available sections."""
         return await self.repository.list()
 
-    @router.get("/sections/{pk}/rules")
+    @router.get("/sections/{pk}/rules", name="sections:list-rules")
     async def list_rules(self, pk: Annotated[int, "Section's primary key"]) -> SectionRuleSchema:
         """Get rules for certain section, including grammar and examples."""
         return await self.repository.get_rule(pk)
@@ -53,7 +53,7 @@ class QuestionsView:
     questions_repository: QuestionsRepository = Depends(get_repository(QuestionsRepository))
     sections_repository: SectionsRepository = Depends(get_repository(SectionsRepository))
 
-    @router.post("/sections/{pk}/questions", status_code=status.HTTP_201_CREATED)
+    @router.post("/sections/{pk}/questions", name="questions:list-create", status_code=status.HTTP_201_CREATED)
     async def create_question(
         self,
         pk: Annotated[int, "Section's primary key"],
@@ -81,8 +81,9 @@ class QuestionsView:
             user_id=self.user.id,
         )
 
-    @router.get("/sections/{pk}/questions")
+    @router.get("/sections/{pk}/questions", name="questions:list")
     async def list_questions(self, pk: Annotated[int, "Section's primary key'"]) -> List[QuestionSchema]:
+        print(self.user.id)
         return await self.questions_repository.list(
             section_id=pk,
             user_id=self.user.id,

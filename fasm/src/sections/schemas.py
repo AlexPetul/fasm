@@ -64,6 +64,7 @@ class QuestionSchemaCreate(BaseModel):
 class QuestionSchemaUpdate(BaseModel):
     user_answer: str | None = None
     reviewer_answer: str | None = None
+    for_review: bool | None = None
 
 
 class MarkForReviewSchema(BaseModel):

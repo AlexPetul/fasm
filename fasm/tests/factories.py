@@ -1,21 +1,12 @@
 import factory
-from sqlalchemy import (
-    Column,
-    Integer,
-    Unicode,
-    create_engine,
-)
-from sqlalchemy.orm import (
-    scoped_session,
-    sessionmaker,
-)
-from sqlalchemy.pool import NullPool
+from factory.fuzzy import FuzzyText
 
+from conftest import session
 from src.auth.models import User
-from src.sections.models import Section
-
-engine = create_engine("postgresql://postgres:postgres@postgres:5432/postgres", echo=False, poolclass=NullPool)
-session = scoped_session(sessionmaker(bind=engine))
+from src.sections.models import (
+    Question,
+    Section,
+)
 
 
 class UserFactory(factory.alchemy.SQLAlchemyModelFactory):
@@ -28,5 +19,14 @@ class UserFactory(factory.alchemy.SQLAlchemyModelFactory):
 class SectionFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Section
+        sqlalchemy_session = session
+        sqlalchemy_session_persistence = "commit"
+
+    name = FuzzyText(prefix="Section_")
+
+
+class QuestionFactory(factory.alchemy.SQLAlchemyModelFactory):
+    class Meta:
+        model = Question
         sqlalchemy_session = session
         sqlalchemy_session_persistence = "commit"
