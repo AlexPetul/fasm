@@ -30,7 +30,7 @@ router = APIRouter(prefix="/dictionary")
     response_model=List[VerbSchema],
     dependencies=[Security(get_current_user)],
 )
-async def verbs(repository: Annotated[DictionaryRepository, Depends(get_repository(DictionaryRepository))]):
+async def list_verbs(repository: Annotated[DictionaryRepository, Depends(get_repository(DictionaryRepository))]):
     return await repository.get_verbs()
 
 
@@ -41,8 +41,22 @@ async def verbs(repository: Annotated[DictionaryRepository, Depends(get_reposito
     response_model=List[VocabularySchema],
     dependencies=[Security(get_current_user)],
 )
-async def verbs(repository: Annotated[DictionaryRepository, Depends(get_repository(DictionaryRepository))]):
+async def list_vocabulary(repository: Annotated[DictionaryRepository, Depends(get_repository(DictionaryRepository))]):
     return await repository.get_vocabulary()
+
+
+@router.post(
+    path="/vocabulary",
+    status_code=status.HTTP_201_CREATED,
+    name="dictionary:create-vocabulary",
+    response_model=VocabularySchema,
+    dependencies=[Security(get_current_user)],
+)
+async def create_vocabulary(
+    data: Annotated[VocabularySchema, Body()],
+    repository: Annotated[DictionaryRepository, Depends(get_repository(DictionaryRepository))],
+):
+    return await repository.create_vocabulary(**data.model_dump())
 
 
 @router.post(

@@ -22,7 +22,7 @@ class VerbSchemaCreate(BaseModel):
 class VocabularySchema(BaseModel):
     eng: str
     farsi: str
-    preposition: bool
+    preposition: bool = False
 
     class Config:
         orm_mode = True

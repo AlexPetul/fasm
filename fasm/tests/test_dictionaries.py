@@ -28,3 +28,17 @@ def test_create_verb(client, app):
     assert data["eng"] == "verb"
     assert data["farsi"] == "translation"
     assert data["stem"] == "stem"
+
+
+def test_create_vocabulary(client, app):
+    response = client.post(
+        app.url_path_for("dictionary:create-vocabulary"),
+        json={"eng": "mom", "farsi": "madar"},
+    )
+
+    assert response.status_code, status.HTTP_201_CREATED
+
+    data = response.json()
+    assert data["eng"] == "mom"
+    assert data["farsi"] == "madar"
+    assert data["preposition"] is False
