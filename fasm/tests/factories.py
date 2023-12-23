@@ -3,6 +3,7 @@ from factory.fuzzy import FuzzyText
 
 from conftest import session
 from src.auth.models import User
+from src.dictionary.models import Verb
 from src.sections.models import (
     Question,
     Section,
@@ -30,3 +31,14 @@ class QuestionFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = Question
         sqlalchemy_session = session
         sqlalchemy_session_persistence = "commit"
+
+
+class VerbFactory(factory.alchemy.SQLAlchemyModelFactory):
+    class Meta:
+        model = Verb
+        sqlalchemy_session = session
+        sqlalchemy_session_persistence = "commit"
+
+    eng = FuzzyText(prefix="Eng_")
+    farsi = FuzzyText(prefix="Translation_")
+    stem = FuzzyText(prefix="Stem_")

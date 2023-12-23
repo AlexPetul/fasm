@@ -26,7 +26,7 @@ router = APIRouter(prefix="/dictionary")
 @router.get(
     path="/verbs",
     status_code=status.HTTP_200_OK,
-    name="verbs:list",
+    name="dictionary:list-verbs",
     response_model=List[VerbSchema],
     dependencies=[Security(get_current_user)],
 )
@@ -48,7 +48,7 @@ async def verbs(repository: Annotated[DictionaryRepository, Depends(get_reposito
 @router.post(
     path="/verbs",
     status_code=status.HTTP_200_OK,
-    name="verbs:create",
+    name="dictionary:create-verb",
     response_model=VerbSchema,
     dependencies=[Security(get_current_user)],
 )

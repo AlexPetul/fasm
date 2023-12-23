@@ -83,17 +83,20 @@ class QuestionsView:
 
     @router.get("/sections/{pk}/questions", name="questions:list")
     async def list_questions(self, pk: Annotated[int, "Section's primary key'"]) -> List[QuestionSchema]:
-        print(self.user.id)
         return await self.questions_repository.list(
             section_id=pk,
             user_id=self.user.id,
         )
 
-    @router.delete("/sections/{section_id}/questions/{pk}", status_code=status.HTTP_204_NO_CONTENT)
+    @router.delete(
+        "/sections/{section_id}/questions/{pk}",
+        name="questions:delete",
+        status_code=status.HTTP_204_NO_CONTENT,
+    )
     async def delete_question(self, pk: Annotated[int, "Question's primary key"]) -> None:
         await self.questions_repository.delete(pk)
 
-    @router.patch("/sections/{section_id}/questions/{pk}")
+    @router.patch("/sections/{section_id}/questions/{pk}", name="questions:update")
     async def update_question(
         self,
         pk: Annotated[int, "Question's primary key"],
