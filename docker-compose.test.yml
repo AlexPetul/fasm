@@ -24,7 +24,10 @@ services:
     env_file:
       - "./fasm/.env"
     environment:
-      DATABASE_URL: postgresql+asyncpg://postgres:postgres@postgres:5432/postgres
+      DB_USER: postgres
+      DB_NAME: postgres
+      DB_HOST: postgres
+      DB_PASSWORD: postgres
     networks:
       - ig_webapp
 
