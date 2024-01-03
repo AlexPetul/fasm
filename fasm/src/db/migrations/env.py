@@ -18,9 +18,12 @@ if config.config_file_name is not None:
 
 
 def run_migrations_online():
+    from src.settings import get_settings
+
+    settings = get_settings()
     connectable = context.config.attributes.get("connection", None)
     if connectable is None:
-        connectable = create_async_engine(os.getenv("DATABASE_URL"))
+        connectable = create_async_engine(settings.database_url)
 
     if isinstance(connectable, AsyncEngine):
         asyncio.run(run_async_migrations(connectable))

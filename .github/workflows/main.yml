@@ -33,8 +33,8 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -t rsa 3.94.1.12 >> ~/.ssh/known_hosts
+          ssh-keyscan -t rsa root@172.104.246.151 >> ~/.ssh/known_hosts
 
       - name: Connect to EC2 and Restart Docker Compose
         run: |
-          ssh ubuntu@3.94.1.12 'cd fasm && git pull && docker-compose up -d --build'
+          ssh ubuntu@172.104.246.151 'cd fasm && git pull && docker-compose up -d --build'
