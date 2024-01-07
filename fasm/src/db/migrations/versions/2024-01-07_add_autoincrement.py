@@ -1,8 +1,8 @@
-"""test2
+"""add autoincrement
 
-Revision ID: e433edecdd16
+Revision ID: a7ce8f06ba9b
 Revises: e5c1b596407c
-Create Date: 2024-01-07 10:47:35.660163
+Create Date: 2024-01-07 15:37:16.346101
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e433edecdd16'
+revision = 'a7ce8f06ba9b'
 down_revision = 'e5c1b596407c'
 branch_labels = None
 depends_on = None

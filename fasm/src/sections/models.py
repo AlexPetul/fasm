@@ -19,7 +19,7 @@ from src.db.config import Base
 class Section(Base):
     __tablename__ = "sections"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, autoincrement=True, primary_key=True, index=True)
     name = Column(String(100), unique=True)
     slug = Column(String(200), unique=True)
     gpt_hint = Column(String, nullable=True)
