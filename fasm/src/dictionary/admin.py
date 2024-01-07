@@ -18,4 +18,5 @@ class VocabularyAdmin(ModelView, model=Vocabulary):
 
 class VerbAdmin(ModelView, model=Verb):
     column_list = [Verb.eng, Verb.farsi, Verb.stem]
+    form_include_pk = True
     column_default_sort = "eng"
