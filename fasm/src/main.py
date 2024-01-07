@@ -25,7 +25,7 @@ def get_application() -> FastAPI:
         allow_origins=[
             "http://localhost:8000",
             "http://localhost:3000",
-            "http://fargate-frontend-lb-c757335280cc1340.elb.us-east-1.amazonaws.com",
+            "https://172.104.246.151",
         ],
         allow_credentials=True,
         allow_methods=["*"],
