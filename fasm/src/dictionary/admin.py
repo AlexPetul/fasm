@@ -11,6 +11,7 @@ from src.dictionary.models import (
 
 class VocabularyAdmin(ModelView, model=Vocabulary):
     column_list = [Vocabulary.eng, Vocabulary.farsi]
+    form_include_pk = True
     column_default_sort = "eng"
     name_plural = "Vocabulary"
 
