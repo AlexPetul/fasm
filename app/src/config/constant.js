@@ -2,7 +2,7 @@ let BACKEND_SERVER = null;
 if (process.env.REACT_APP_BACKEND_SERVER) {
   BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 } else {
-  BACKEND_SERVER = "http://localhost:8000/api/";
+  BACKEND_SERVER = "https://172.104.246.151/api/";
 }
 
 export const BASENAME = ''; // don't add '/' at end off BASENAME
