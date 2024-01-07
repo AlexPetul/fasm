@@ -23,72 +23,24 @@ from jose.utils import base64url_decode
 
 from src.auth.models import User
 from src.auth.repository import UsersRepository
+from src.auth.token import decode_jwt_token
 from src.dependencies.database import get_repository
-from src.settings import get_settings
-
-
-@cache
-def get_cognito_public_keys() -> List[Dict]:
-    settings = get_settings()
-
-    jwks_url = "https://cognito-idp.{region}.amazonaws.com/{pool}/.well-known/jwks.json".format(
-        region=settings.aws_cognito_region,
-        pool=settings.aws_cognito_user_pool.get_secret_value(),
-    )
-
-    response = requests.get(jwks_url)
-    return response.json()["keys"]
-
-
-def get_issuer() -> str:
-    settings = get_settings()
-    return "https://cognito-idp.{region}.amazonaws.com/{pool}".format(
-        region=settings.aws_cognito_region,
-        pool=settings.aws_cognito_user_pool.get_secret_value(),
-    )
-
-
-def verify_token(token, public_keys, issuer):
-    headers = jwt.get_unverified_headers(token)
-    kid = headers["kid"]
-
-    key_index = -1
-    for i in range(len(public_keys)):
-        if kid == public_keys[i]["kid"]:
-            key_index = i
-            break
-
-    if key_index == -1:
-        raise Exception("Public key not found in jwks.json")
-
-    public_key = jwk.construct(public_keys[key_index])
-    message, encoded_signature = str(token).rsplit(".", 1)
-    decoded_signature = base64url_decode(encoded_signature.encode("utf-8"))
-
-    if not public_key.verify(message.encode("utf8"), decoded_signature):
-        raise Exception("Signature verification failed")
-
-    claims = jwt.get_unverified_claims(token)
-    if claims["iss"] != issuer:
-        raise Exception("Token validation error")
-
-    return claims
+from src.settings import get_settings, Settings
 
 
 async def get_current_user(
     token: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
     user_repository: UsersRepository = Depends(get_repository(UsersRepository)),
+    settings: Settings = Depends(get_settings),
 ) -> User:
     try:
-        issuer = get_issuer()
-        public_keys = get_cognito_public_keys()
-        payload = verify_token(token.credentials, public_keys, issuer)
+        payload = decode_jwt_token(token.credentials, settings.access_token_secret_key.get_secret_value())
 
-        if (cognito_id := payload.get("sub")) is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials")
+        if (username := payload.get("username")) is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect email or password")
 
-        if (user := await user_repository.get_by_cognito_id(cognito_id)) is None:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+        if (user := await user_repository.get_by_username(username)) is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect email or password")
 
         return user
 

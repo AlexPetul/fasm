@@ -27,6 +27,15 @@ services:
     networks:
       - ig_webapp
 
+  node:
+    build:
+      context: ./app
+      dockerfile: ./Dockerfile
+    volumes:
+      - "./app:/app"
+    ports:
+      - "3000:3000"
+
   preloader:
     build:
       context: ./fasm
@@ -51,7 +60,6 @@ services:
     image: postgres:14-alpine
     volumes:
       - "./.data/postgres:/var/lib/postgresql/data"
-    user: "postgres"
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres

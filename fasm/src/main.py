@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from sqladmin import Admin
+from starlette.middleware.cors import CORSMiddleware
 
 from src.auth.router import router as auth_router
 from src.db.config import async_engine
@@ -17,6 +18,19 @@ def get_application() -> FastAPI:
         docs_url="/docs",
         openapi_url="/openapi.json",
         redoc_url=None,
+    )
+
+    application.add_middleware(
+        CORSMiddleware,
+        allow_origins=[
+            "http://localhost:8000",
+            "http://localhost:3000",
+            "http://fargate-frontend-lb-c757335280cc1340.elb.us-east-1.amazonaws.com",
+        ],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+        expose_headers=["*"],
     )
 
     application.include_router(auth_router, prefix="/api", tags=["auth"])

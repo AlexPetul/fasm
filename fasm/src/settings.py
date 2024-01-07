@@ -16,13 +16,12 @@ class Settings(BaseSettings):
     db_host: str = "postgres"
     db_driver: str = "postgresql+asyncpg"
 
-    aws_cognito_region: str
-    aws_access_key_id: SecretStr
-    aws_secret_access_key: SecretStr
-    aws_cognito_client_id: SecretStr
-    aws_cognito_user_pool: SecretStr
-
     openai_api_key: SecretStr
+
+    access_token_secret_key: SecretStr
+    access_token_expires: int
+    refresh_token_secret_key: SecretStr
+    refresh_token_expires: int
 
     @property
     def database_url(self):

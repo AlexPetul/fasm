@@ -1,0 +1,11 @@
+.slide-card {
+  position: fixed;
+  top: 100px;
+  right: -100%; /* Start off the screen */
+  height: 100vh;
+  transition: right 0.3s ease-in-out;
+}
+
+.slide-card.show {
+  right: 0; /* Slide in */
+}
