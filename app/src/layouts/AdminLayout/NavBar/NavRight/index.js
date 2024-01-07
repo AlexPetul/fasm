@@ -16,16 +16,8 @@ const NavRight = () => {
 
     const handleLogout = () => {
         setLoading(true)
-        axios
-            .post(API_SERVER + 'auth/logout', {}, {headers: {Authorization: `${account.token}`}})
-            .then(function (response) {
-                dispatcher({type: LOGOUT});
-                setLoading(false);
-            })
-            .catch(function (error) {
-                console.log('error - ', error);
-                setLoading(false);
-            });
+        dispatcher({type: LOGOUT});
+        setLoading(false);
     };
 
     if (!isLoggedIn) {
