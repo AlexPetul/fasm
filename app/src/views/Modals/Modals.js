@@ -10,11 +10,17 @@ const Modals = () => {
     const account = useSelector((state) => state.account);
     const [showCard, setShowCard] = useState(false);
     const [sectionId, setSectionId] = useState()
+    const [data, setData] = useState({examples: []})
 
     useEffect(() => {
         axios.get(API_SERVER + 'sections', {headers: {Authorization: `Bearer ${account.token}`}})
             .then(response => {
-                setSectionId(response.data.filter((x) => x.slug === window.location.pathname.slice(1))[0].id)
+                const sectionId = response.data.filter((x) => x.slug === window.location.pathname.slice(1))[0].id
+                setSectionId(sectionId)
+                axios.get(API_SERVER + `sections/${sectionId}/rules`, {headers: {Authorization: `Bearer ${account.token}`}})
+                    .then(response => {
+                        setData(response.data)
+                    })
             })
     }, [])
 
@@ -23,17 +29,15 @@ const Modals = () => {
             <Card style={{minWidth: "30rem", height: "calc(100vh - 100px)"}}>
                 <Card.Body>
                     <Card.Title>
-                        <b>should / must - baayad</b><br/>
+                        <b>{data.grammar}</b><br/>
                     </Card.Title>
                     <Card.Text>
-                        <Row>
-                            <Col lg={6}>I must know</Col>
-                            <Col lg={6}>Man baayad bedoonam</Col>
-                        </Row>
-                        <Row>
-                            <Col lg={6}>He should clean his room</Col>
-                            <Col lg={6}>Oon baayad otaaghesho tamiz bokone</Col>
-                        </Row>
+                        {data.examples.map((x) =>
+                            <Row>
+                                <Col lg={6}>{x.eng}</Col>
+                                <Col lg={6}>{x.farsi}</Col>
+                            </Row>
+                        )}
                     </Card.Text>
                     <Button style={{bottom: 20, width: "calc(100% - 45px)"}} className="position-absolute"
                             variant="primary" onClick={() => setShowCard(false)}>Close</Button>
