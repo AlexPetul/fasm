@@ -76,6 +76,26 @@ const routes = [
             },
             {
                 exact: true,
+                path: '/can-able-to',
+                component: lazy(() => import('./views/can-be-able/CanBeAble'))
+            },
+            {
+                exact: true,
+                path: '/past-simple',
+                component: lazy(() => import('./views/past-simple/PastSimple'))
+            },
+            {
+                exact: true,
+                path: '/future-simple',
+                component: lazy(() => import('./views/future-simple/FutureSimple'))
+            },
+            {
+                exact: true,
+                path: '/past-continues',
+                component: lazy(() => import('./views/past-continues/PastContinues'))
+            },
+            {
+                exact: true,
                 path: '/dictionary',
                 component: lazy(() => import('./views/dictionary/Dictionary'))
             },
