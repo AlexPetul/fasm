@@ -110,10 +110,14 @@ const Content = ({name, rules, sectionId, setShowInfo}) => {
 
     const markForReview = () => {
         setIsLoading(true);
-        axios.patch(API_SERVER + `sections/${sectionId}/questions`, {ids: selected},
+        axios.patch(API_SERVER + `sections/${sectionId}/questions/${selected[0]}`,
+            {
+                for_review: true
+            },
             {
                 headers: {Authorization: `Bearer ${account.token}`}
-            }
+            },
+
         )
             .then(response => {
                 fetchQuestions()
