@@ -53,7 +53,7 @@ class QuestionsView:
     questions_repository: QuestionsRepository = Depends(get_repository(QuestionsRepository))
     sections_repository: SectionsRepository = Depends(get_repository(SectionsRepository))
 
-    @router.post("/sections/questions", name="questions:list-for-review")
+    @router.get("/sections/questions", name="questions:list-for-review")
     async def list_for_review(self) -> List[QuestionSchema]:
         return await self.questions_repository.list_for_review()
 
