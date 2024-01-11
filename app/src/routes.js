@@ -96,6 +96,11 @@ const routes = [
             },
             {
                 exact: true,
+                path: '/verb-plus-verb',
+                component: lazy(() => import('./views/VerbPlusVerb/VerbPlusVerb'))
+            },
+            {
+                exact: true,
                 path: '/dictionary',
                 component: lazy(() => import('./views/dictionary/Dictionary'))
             },
